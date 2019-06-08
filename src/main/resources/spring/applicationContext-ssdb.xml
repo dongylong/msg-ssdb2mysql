@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 设置配置文件存放位置 -->
+	<context:property-placeholder location="classpath:*.properties" />
+	<context:component-scan base-package="com.trans.*"/>
+	<!-- 单个 SSDB 服务器的配置，其他几个类似的构造方法在此略去 -->
+	<bean id="singleServerSsdbClient" class="com.hyd.ssdb.SsdbClient" destroy-method="close">
+		<constructor-arg name="host" value="${server.ssdb.hostname}"/>
+		<constructor-arg name="port" value="${server.ssdb.port}"/>
+		<constructor-arg name="pass" value=""/>
+		<constructor-arg name="soTimeout" value="15000"/>
+		<constructor-arg name="poolMaxTotal" value="200"/>
+	</bean>
+    <bean id="ssdbUtil" class="com.trans.utils.ssdb.SSDBUtil"/>
+</beans>
